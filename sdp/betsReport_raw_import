@@ -1,3 +1,10 @@
+USE SCHEMA upcoz.staging;
+
+CREATE STAGE betsReport_stage
+  URL = 's3://upcoz-analytics/dailyReports/betsReport'
+  STORAGE_INTEGRATION = UPCOZ_ANALYTICS_S3_INTEGRATION_DAILY_REPORTS;
+
+
 -- Create a file format
 CREATE OR REPLACE FILE FORMAT betsReportformat
     TYPE=CSV,
