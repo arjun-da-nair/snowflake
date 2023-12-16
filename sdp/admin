@@ -1,0 +1,94 @@
+
+AWS-IAM
+
+
+S3 Bucket
+Name: upcoz-analytics
+arn:aws:s3:::upcoz-analytics
+
+
+Policy:
+Name:  snowflake_access
+Comment: allow authorized snowflake users to list, read from, and write to s3
+arn:aws:iam::739922021614:policy/snowflake_access
+
+Roles:
+Name: snowflakerole 
+Comment: role associated with snowflake to access S3
+arn:aws:iam::739922021614:role/snowflakerole
+
+
+SNOWFLAKE
+
+Cloud Storage Integration Role in Snowflake
+
+Name: UPCOZ_ANALYTICS_S3_INTEGRATION_DAILY_REPORTS
+
+
+property
+property_type
+property_value
+property_default
+ENABLED
+Boolean
+TRUE
+FALSE
+STORAGE_PROVIDER
+String
+S3
+ 
+STORAGE_ALLOWED_LOCATIONS
+List
+s3://upcoz-analytics/dailyReports/,s3://upcoz-analytics/dailyReports/
+[]
+STORAGE_BLOCKED_LOCATIONS
+List
+ 
+[]
+STORAGE_AWS_IAM_USER_ARN
+String
+arn:aws:iam::030353805257:user/39ef0000-s
+ 
+STORAGE_AWS_ROLE_ARN
+String
+arn:aws:iam::739922021614:role/snowflakerole
+ 
+STORAGE_AWS_EXTERNAL_ID
+String
+EJ05627_SFCRole=2_2NkhHYxo2xx0/uodizvTvBLpwQ4=
+ 
+COMMENT
+String
+ 
+ 
+
+
+
+
+
+
+
+CREATE ROLE upcoz_analyst
+   COMMENT = 'This role has read privileges on upcoz.production';
+
+
+GRANT USAGE
+  ON DATABASE UPCOZ
+  TO ROLE upcoz_analyst;
+
+GRANT USAGE
+  ON SCHEMA UPCOZ.PRODUCTION
+  TO ROLE upcoz_analyst;
+
+GRANT SELECT
+  ON ALL TABLES IN SCHEMA UPCOZ.PRODUCTION
+  TO ROLE upcoz_analyst;
+
+GRANT USAGE
+  ON WAREHOUSE COMPUTE_WH
+  TO ROLE upcoz_analyst;
+
+GRANT SELECT ON FUTURE TABLES IN SCHEMA UPCOZ.PRODUCTION TO ROLE upcoz_analyst;
+
+sdp_analyst
+SDPanalyst@123
